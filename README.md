@@ -1,0 +1,2 @@
+# Sunday.ElasticSearch.Repository
+基于ElasticSearch的Nest包封装一套即用仓储
