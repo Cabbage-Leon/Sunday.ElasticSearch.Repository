@@ -4,5 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Sunday.ElasticSearch.Repository\Sunday.ElasticSearch.Repository.csproj" />
+  </ItemGroup>
+
 
 </Project>
