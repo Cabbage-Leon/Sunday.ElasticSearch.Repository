@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Authors>Cabbage</Authors>
+    <Description>基于ElasticSearch的Nest包封装一套即用仓储</Description>
+    <PackageReleaseNotes>基于ElasticSearch的Nest包封装一套即用仓储</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
