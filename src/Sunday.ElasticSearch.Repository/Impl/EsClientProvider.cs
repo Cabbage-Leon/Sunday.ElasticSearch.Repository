@@ -9,7 +9,10 @@ namespace Sunday.ElasticSearch
 {
     public class EsClientProvider : IEsClientProvider
     {
+        private readonly Dictionary<string, ElasticClient> _keyValuePairs = new Dictionary<string, ElasticClient>();
         private readonly IOptions<EsConfig> _esConfig;
+        private readonly object _sync = new object();
+
         public EsClientProvider(IOptions<EsConfig> esConfig)
         {
             _esConfig = esConfig;
@@ -68,7 +71,7 @@ namespace Sunday.ElasticSearch
             {
                 connectionSetting.DefaultIndex(defaultIndex);
             }
-            return new ElasticClient(connectionSetting);
+            return GetBaseClient(url + defaultIndex, connectionSetting);
         }
 
         /// <summary>
@@ -87,8 +90,24 @@ namespace Sunday.ElasticSearch
             {
                 connectionSetting.DefaultIndex(defaultIndex);
             }
+            
             //connectionSetting.BasicAuthentication("", ""); //设置账号密码
-            return new ElasticClient(connectionSetting);
+            return GetBaseClient(string.Join('_', urls) + defaultIndex, connectionSetting);
         }
+
+        private ElasticClient GetBaseClient(string key, ConnectionSettings connectionSettings)
+        {
+            lock (_sync)
+            {
+                if (!_keyValuePairs.TryGetValue(key, out var elasticClient))
+                {
+                    elasticClient = new ElasticClient(connectionSettings);
+                    _keyValuePairs[key] = elasticClient;
+                }
+
+                return elasticClient;
+            }
+        }
+
     }
 }

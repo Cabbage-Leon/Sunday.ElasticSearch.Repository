@@ -13,5 +13,7 @@ namespace Sunday.ElasticSearch.Repository.Api.ServiceExtensions
 
             services.AddEsRepository(configuration);
         }
+
+
     }
 }

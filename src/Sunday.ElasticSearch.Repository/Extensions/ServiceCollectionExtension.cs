@@ -26,6 +26,20 @@ namespace Sunday.ElasticSearch
             return services;
         }
 
+        public static IServiceCollection AddEsRepository(this IServiceCollection services, Action<EsConfig> optionAction)
+        {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
+
+            EsConfig esConfig = new EsConfig();
+            optionAction?.Invoke(esConfig);
+
+            services.AddSingleton<IEsClientProvider, EsClientProvider>();
+            services.AddEsRepository();
+
+            return services;
+        }
+
         private static IServiceCollection AddEsRepository(this IServiceCollection services)
         {
             IEnumerable<Assembly> assemblies = AppDomain.CurrentDomain.GetCurrentPathAssembly().Where(x => !x.GetName().Name.Equals("Sunday.ElasticSearch"));
